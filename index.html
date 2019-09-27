@@ -26,6 +26,14 @@
         <div class="reveal">
             <div class="slides">
 
+                    <section>
+                            <h1>Docker & PHP 101</h1>
+                            <p>An intro to Docker technologies using PHP</p>
+
+                            <p><small>Mat Gilbert - 2019</small></p>
+                            <img style="background: none; border: none !important;" src="img/Moby-logo.png" alt="Docker Whale"/>
+                        </section>
+
                 <section>
                     <h2>Docker & PHP 101</h2>
                     <p>An intro to Docker technologies using PHP</p>
@@ -127,7 +135,7 @@ RUN a2enmod rewrite
                 <section>
                     <h2>docker-compose example</h2>
                     <pre class="stretch">
-                        <code>
+                        <code style="font-size: 11pt; line-height: 13.5pt;">
 version: '3'
 services:
     db:
@@ -157,8 +165,7 @@ services:
             - db
 volumes:
     web-db:
-
-                        </code>
+</code>
                     </pre>
                 </section>
 
@@ -176,6 +183,12 @@ volumes:
                 // height: 1080,
                 width: 1280,
                 height: 720,
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+
+				transition: 'fade', // none/fade/slide/convex/concave/zoom
 
                 // Factor of the display size that should remain empty around the content
                 margin: 0.1,
