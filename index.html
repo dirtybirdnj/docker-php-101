@@ -1,49 +1,195 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+        <title>Docker & PHP 101 - Mat Gilbert 2019</title>
 
-		<link rel="stylesheet" href="css/reset.css">
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/black.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/monokai.css">
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="lib/css/monokai.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
 
-		<script src="js/reveal.js"></script>
+                <section>
+                    <h2>Docker & PHP 101</h2>
+                    <p>An intro to Docker technologies using PHP</p>
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true }
-				]
-			});
-		</script>
-	</body>
+                    <p><small>Mat Gilbert - 2019</small></p>
+                    <img style="background: none; border: none !important;" src="img/Moby-logo.png" alt="Docker Whale"/>
+                </section>
+
+                <section>
+                    <h2>Bare Metal vs Virtualization</h2>
+                    <br/>
+                    <p>Your computer vs a computer in your computer</p>
+                    <p>The cloud is just somebody else's computer</p>
+                    <p>There are important differences between local & production</p>
+                </section>
+
+                <section>
+                    <h2>In the Beginning</h2>
+                    <ul>
+                        <li>VMWare</li>
+                        <li>VirtualBox</li>
+                        <li>Vagrant</li>
+                    </ul>
+
+                </section>
+
+                <section>
+                    <h2>Docker Alternatives:</h2>
+                    <ul>
+                        <li>MAMP / XAMPP</li>
+                        <li>Local by Flywheel (WordPress)</li>
+                        <li>Homestead (Laravel)</li>
+                        <li>DBNign</li>
+                        <li>Postgres.app</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Docker is:</h2>
+
+                        <p>Docker Daemon - vehicle for all the containers</p>
+                        <p>Docker CLI - commands to interact with the daemon</p>
+                        <p>Dockerfile</p>
+                        <p>Docker Images</p>
+                        <p>Docker Hub / Registries</p>
+
+
+                </section>
+
+                <section>
+                    <h2>Docker Build:</h2>
+
+                        <p>Dockerfile executed</p>
+                        <p>Creates an Images</p>
+                        <p>Collection of apt-get statments</p>
+                        <p>Customizations per project</p>
+                        <p>Order of build steps matters!</p>
+
+                </section>
+
+                <section>
+                        <h2>Dockerfile example:</h2>
+                        <pre class="stretch"><code>FROM php:7.1-apache
+
+COPY ./vendor /work/vendor
+COPY ./src /work/src
+
+COPY /docker/vhost.conf /etc/apache2/sites-available/000-default.conf
+COPY /docker/initdb.sql /docker-entrypoint-initdb.d/initdb.sql
+COPY /docker/php-custom.ini /usr/local/etc/php/conf.d/php-custom.ini
+
+WORKDIR /work
+RUN apt-get update && apt-get install -y \
+            apt-transport-https \
+            libicu-dev \
+            libfreetype6-dev \
+            libjpeg62-turbo-dev \
+            libpng-dev
+RUN docker-php-ext-install mbstring pdo pdo_mysql intl gd
+RUN chown -R www-data:www-data /work
+RUN a2enmod rewrite
+</code></pre>
+
+                </section>
+
+                <section>
+                    <h2>docker-compose</h2>
+                    <ul>
+                    <li>Why to automate</li>
+                    <li>Combining services (nginx/apache + mysql)</li>
+                    <li>Volumes</li>
+                    <li>Caveates around shared volumes</li>
+                    </ul>
+
+
+                </section>
+
+
+                <section>
+                    <h2>docker-compose example</h2>
+                    <pre class="stretch">
+                        <code>
+version: '3'
+services:
+    db:
+        image: mysql:5.7
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: php-minimal
+            MYSQL_USER: devuser
+            MYSQL_PASSWORD: devpass
+        ports:
+            - "9906:3306"
+        volumes:
+            - web-db:/var/lib/mysql
+    web:
+        build:
+            dockerfile: docker/Dockerfile
+            context: ./
+        environment:
+            SHELL: /bin/bash
+        volumes:
+            - ./src:/work/src
+        depends_on:
+            - db
+        ports:
+            - "8100:80"
+        links:
+            - db
+volumes:
+    web-db:
+
+                        </code>
+                    </pre>
+                </section>
+
+            </div>
+        </div>
+
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info about config & dependencies:
+            // - https://github.com/hakimel/reveal.js#configuration
+            // - https://github.com/hakimel/reveal.js#dependencies
+            Reveal.initialize({
+                // width: 1920,
+                // height: 1080,
+                width: 1280,
+                height: 720,
+
+                // Factor of the display size that should remain empty around the content
+                margin: 0.1,
+
+                // Bounds for smallest/largest possible scale to apply to content
+                minScale: 0.2,
+                maxScale: 1.5,
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true }
+                ]
+            });
+        </script>
+    </body>
 </html>
