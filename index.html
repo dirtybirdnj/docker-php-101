@@ -25,21 +25,15 @@
     <body>
         <div class="reveal">
             <div class="slides">
-
                     <section>
                             <h1>Docker & PHP 101</h1>
                             <p>An intro to Docker technologies using PHP</p>
-
                             <p><small>Mat Gilbert - 2019</small></p>
                             <img style="background: none; border: none !important;" src="img/Moby-logo.png" alt="Docker Whale"/>
                         </section>
-
                 <section>
-                    <h2>Docker & PHP 101</h2>
-                    <p>An intro to Docker technologies using PHP</p>
-
-                    <p><small>Mat Gilbert - 2019</small></p>
-                    <img style="background: none; border: none !important;" src="img/Moby-logo.png" alt="Docker Whale"/>
+                    <h2>Todays Objective:</h2>
+                    <p>Set up a local development environment for PHP</p>
                 </section>
 
                 <section>
@@ -53,6 +47,7 @@
                 <section>
                     <h2>In the Beginning</h2>
                     <ul>
+                        <li>FTP Edit on Server / Dreamweaver</li>
                         <li>VMWare</li>
                         <li>VirtualBox</li>
                         <li>Vagrant</li>
@@ -73,25 +68,27 @@
 
                 <section>
                     <h2>Docker is:</h2>
-
                         <p>Docker Daemon - vehicle for all the containers</p>
                         <p>Docker CLI - commands to interact with the daemon</p>
                         <p>Dockerfile</p>
                         <p>Docker Images</p>
                         <p>Docker Hub / Registries</p>
-
-
                 </section>
 
                 <section>
-                    <h2>Docker Build:</h2>
+                        <h2>Docker CLI:</h2>
 
+                            <p>docker ps and docker ps -a</p>
+                            <p>docker exec -it container /bin/bash</p>
+                    </section>
+
+                <section>
+                    <h2>Docker Build:</h2>
                         <p>Dockerfile executed</p>
                         <p>Creates an Images</p>
                         <p>Collection of apt-get statments</p>
                         <p>Customizations per project</p>
                         <p>Order of build steps matters!</p>
-
                 </section>
 
                 <section>
@@ -169,6 +166,31 @@ volumes:
                     </pre>
                 </section>
 
+
+                <section>
+                    <h2>How to apply docker<br/><br/> to an existing app?</h2>
+                    <ul>
+                        <li>Adding docker artifacts</li>
+                        <li>.env file configuration</li>
+                        <li>Docker local only is ok!</li>
+                    </ul>
+
+                </section>
+
+                <section>
+                    <h2>Bluehouse Group</h2>
+                    <ul>
+                        <li>PHP / SilverStripe</li>
+                        <li>Application Development</li>
+                        <li>Focus on Information Architecture</li>
+                    </ul>
+                    <p>&nbsp;</p>
+                    <h3>Now Hiring!</h3>
+
+                        <p><a href="https://www.bluehousegroup.com/about-us/careers/software-engineer/">Software Engineer</a></p>
+                        <p>careers@bluehousegroup.com</p>
+
+                </section>
             </div>
         </div>
 
